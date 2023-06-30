@@ -1,0 +1,35 @@
+{
+    "name": "@trpc-turbo/db",
+    "version": "0.1.0",
+    "main": "./index.ts",
+    "types": "./index.ts",
+    "publishConfig": {
+        "access": "public"
+    },
+    "files": [
+        "prisma",
+        "index.ts"
+    ],
+    "scripts": {
+        "db:generate": "pnpm with-env prisma generate",
+        "db:studio": "pnpm with-env prisma studio",
+        "db:reset": "pnpm with-env prisma migrate reset",
+        "db:migrate": "pnpm with-env prisma migrate dev --name post-entity --create-only && pnpm db:generate",
+        "db:push": "pnpm with-env prisma db push --skip-generate",
+        "db-seed": "pnpm with-env prisma db seed",
+        "dev": "pnpm db:studio",
+        "with-env": "dotenv -e ../../.env --",
+        "postinstall": "pnpm db:generate"
+    },
+    "dependencies": {
+        "@prisma/client": "^4.16.1"
+    },
+    "devDependencies": {
+        "@trpc-turbo/eslint-config-turbo": "workspace:*",
+        "@trpc-turbo/tsconfig": "workspace:*",
+        "dotenv-cli": "^7.2.1",
+        "npm-run-all": "^4.1.5",
+        "prisma": "^4.16.1",
+        "typescript": ">=5"
+    }
+}

@@ -1,0 +1,149 @@
+// This is your Prisma schema file,
+// learn more about it in the docs https//pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum WalletProviderLogin {
+  PL_NONE
+  PL_METAMASK
+  PL_BINANCE_WALLET
+}
+
+enum SocialProviderLogin {
+  PL_NONE
+  PL_GOOGLE
+  PL_GITHUB
+  PL_TELEGRAM
+  PL_FACEBOOK
+  PL_INSTAGRAM
+  PL_SLACK
+  PL_TWITTER
+  PL_DISCORD
+}
+
+enum NetworkSymbol {
+  NS_NONE
+  NS_ETH
+  NS_BSC
+  NS_TRX
+}
+
+model UserWallet {
+  id             String              @id @default(uuid())
+  userId         String
+  walletAddress  String
+  networkSymbol  NetworkSymbol
+  walletProvider WalletProviderLogin
+  createdAt      DateTime            @default(now()) @db.Timestamp()
+  updatedAt      DateTime            @default(now()) @updatedAt @db.Timestamp()
+  user           User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([walletAddress, networkSymbol])
+}
+
+model UserSocial {
+  id               String              @id @default(uuid())
+  userId           String
+  socialProvider   SocialProviderLogin
+  socialProviderId String
+  createdAt        DateTime            @default(now()) @db.Timestamp()
+  updatedAt        DateTime            @default(now()) @updatedAt @db.Timestamp()
+  user             User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([socialProvider, socialProviderId])
+}
+
+model User {
+  id             String       @id @default(uuid())
+  email          String?      @unique
+  name           String?
+  password       String?
+  role           Role         @default(USER)
+  createdAt      DateTime     @default(now()) @db.Timestamp()
+  updatedAt      DateTime     @default(now()) @updatedAt @db.Timestamp()
+  accountWallets UserWallet[]
+  accountSocials UserSocial[]
+}
+
+enum BetStatus {
+  BS_NONE
+  BS_COMMITTED
+  BS_BET
+  BS_COMPLETED
+}
+
+enum GameSymbol {
+  NONE
+  DICE
+  KENO
+  HASH_DICE
+  MINES
+  TRIPLE
+  LIMBO
+  TOWER
+  COIN_FLIP
+}
+
+enum DiceDirection {
+  DD_NONE
+  DD_ROLL_UNDER
+  DD_ROLL_OVER
+}
+
+model DiceBet {
+  turnId         String
+  userId         String
+  gameSymbol     GameSymbol
+  commitHash     String        @db.VarChar(1024)
+  maskedResult   String        @db.VarChar(1024)
+  signature      String        @db.VarChar(256)
+  multiplier     Decimal       @db.Decimal(23, 8)
+  currencySymbol String        @db.VarChar(64)
+  status         BetStatus     @default(BS_NONE)
+  isWin          Boolean       @default(false)
+  betAmount      Decimal       @db.Decimal(23, 8)
+  payout         Decimal       @db.Decimal(23, 8)
+  profit         Decimal       @db.Decimal(23, 8)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @default(now()) @updatedAt
+  placeBetTxId   String
+  direction      DiceDirection @default(DD_NONE)
+  luckyNumber    Int
+  betNumber      Int
+
+  @@id([turnId, createdAt])
+}
+
+model DiceGameConfig {
+  gameSymbol GameSymbol @id
+  metadata   Json
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @default(now()) @updatedAt
+}
+
+model BetResult {
+  turnId         String
+  userId         String
+  gameSymbol     GameSymbol
+  multiplier     Decimal    @db.Decimal(23, 8)
+  currencySymbol String     @db.VarChar(64)
+  betAmount      Decimal    @db.Decimal(23, 8)
+  payout         Decimal    @db.Decimal(23, 8)
+  profit         Decimal    @db.Decimal(23, 8)
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @default(now()) @updatedAt
+
+  @@id([turnId, createdAt])
+}

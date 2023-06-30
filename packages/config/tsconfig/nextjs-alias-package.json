@@ -1,0 +1,12 @@
+{
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "display": "Next.js with customize alias path packages",
+    "extends": "./nextjs.json",
+    "compilerOptions": {
+        "paths": {
+            "@packages/ui/*": ["../../../packages/ui/*"],
+            "@packages/db/*": ["../../../packages/db/*"],
+            "@packages/server/*": ["../../../packages/server/src/*"]
+        }
+    }
+}

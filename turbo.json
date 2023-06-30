@@ -1,0 +1,72 @@
+{
+    "$schema": "https://turbo.build/schema.json",
+    "globalDependencies": ["**/.env", "tsconfig.json"],
+    "pipeline": {
+        "db:generate": {
+            "inputs": ["prisma/schema.prisma"]
+        },
+        "db:push": {
+            "inputs": ["prisma/schema.prisma"],
+            "cache": false
+        },
+        "db:migrate": {
+            "inputs": ["prisma/schema.prisma"],
+            "cache": false
+        },
+        "build": {
+            "dependsOn": ["^build", "^db:generate"],
+            "outputs": [".next/**", "!.next/cache/**"]
+        },
+        "lint": {},
+        "dev": {
+            "dependsOn": ["^db:generate"],
+            "cache": false,
+            "persistent": true
+        },
+        "type-check": {
+            "dependsOn": ["^db:generate"],
+            "cache": false
+        }
+    },
+    "globalEnv": [
+        "CI",
+        "NODE_ENV",
+        "APP_ENV",
+        "PORT",
+        "POSTGRES_PASSWORD",
+        "POSTGRES_USER",
+        "POSTGRES_DB",
+        "POSTGRES_HOST",
+        "POSTGRES_HOSTNAME",
+        "DATABASE_PORT",
+        "DATABASE_URL",
+        "REDIS_URI",
+        "ACCESS_TOKEN_PRIVATE_KEY",
+        "ACCESS_TOKEN_PUBLIC_KEY",
+        "REFRESH_TOKEN_PRIVATE_KEY",
+        "REFRESH_TOKEN_PUBLIC_KEY",
+        "VERIFICATION_TOKEN_PRIVATE_KEY",
+        "VERIFICATION_TOKEN_PUBLIC_KEY",
+        "FACEBOOK_APP_ID",
+        "FACEBOOK_APP_SECRET",
+        "GOOGLE_CLIENT_ID",
+        "GOOGLE_CLIENT_SECRET",
+        "TWITTER_CLIENT_ID",
+        "TWITTER_CLIENT_SECRET",
+        "SLACK_CLIENT_ID",
+        "SLACK_CLIENT_SECRET",
+        "INSTAGRAM_CLIENT_ID",
+        "INSTAGRAM_CLIENT_SECRET",
+        "DISCORD_CLIENT_ID",
+        "DISCORD_CLIENT_SECRET",
+        "TELEGRAM_CLIENT_ID",
+        "TELEGRAM_CLIENT_SECRET",
+        "GITHUB_CLIENT_ID",
+        "GITHUB_CLIENT_SECRET",
+        "GITLAB_CLIENT_ID",
+        "GITLAB_CLIENT_SECRET",
+        "NACL_PAIR_SECRET_KEY",
+        "NACL_PAIR_PUBLIC_KEY",
+        "CLIENT_REDIRECT"
+    ]
+}

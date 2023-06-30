@@ -1,0 +1,12 @@
+#!/bin/bash
+echo "\033[1;33mProcessing..."
+scriptPath="./script"
+NEXT="next"
+TURBO="turbo"
+NODE_MODULES="node-modules"
+LOCK="lock"
+source $scriptPath/$NEXT
+source $scriptPath/$LOCK
+source $scriptPath/$NODE_MODULES
+echo "\n\033[0;35mDone"
+ result=$?

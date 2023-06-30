@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ES5",
+      "ES6"
+    ]
+  },
+  "extends": "@trpc-turbo/tsconfig/react-library.json",
+  "include": [
+    "."
+  ],
+  "exclude": [
+    "dist",
+    "build",
+    "node_modules"
+  ]
+}
