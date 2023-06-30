@@ -1,0 +1,17 @@
+{
+  "extends": "@trpc-turbo/tsconfig/nextjs-alias-package.json",
+  "compilerOptions": {
+    "baseUrl": "src",
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "./*.js",
+    "./src/**/*.js",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

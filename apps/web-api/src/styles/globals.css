@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#root,
+body,
+html {
+    height: 100%;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 400;
+    background: #3d343e;
+    color: white;
+    font-size: 16px;
+    line-height: 1.42857143;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 3rem 1rem;
+    overflow: hidden;
+    overflow-y: auto;
+}

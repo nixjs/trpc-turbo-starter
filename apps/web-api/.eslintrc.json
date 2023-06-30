@@ -1,0 +1,6 @@
+{
+  "extends": [
+    "plugin:@next/next/recommended",
+    "@trpc-turbo/eslint-config-turbo/next-app"
+  ]
+}
